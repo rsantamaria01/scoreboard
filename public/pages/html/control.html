@@ -46,8 +46,10 @@
 
         <div class="overlay-url-section">
             <label for="overlayUrl">Overlay URL:</label>
-            <input type="text" id="overlayUrl" readonly>
+            <input type="text" id="overlayUrl" readonly onclick="copyOverlayUrl()">
         </div>
+
+        <button onclick="goToLandingPage()">Back to Landing Page</button>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>

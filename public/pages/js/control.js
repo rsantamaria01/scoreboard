@@ -81,3 +81,15 @@ function resetTimer() {
     document.getElementById('gameTime').value = "00:00";
     updateScore();
 }
+
+function goToLandingPage() {
+    window.location.href = '/pages/html/landing.html';
+}
+
+function copyOverlayUrl() {
+    const overlayUrlInput = document.getElementById('overlayUrl');
+    overlayUrlInput.select();
+    overlayUrlInput.setSelectionRange(0, 99999); // For mobile devices
+    document.execCommand('copy');
+    alert('Overlay URL copied to clipboard');
+}
