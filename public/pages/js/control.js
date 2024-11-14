@@ -19,21 +19,32 @@ fetch(`/api/games/${gameId}`)
     .catch(error => console.error('Error fetching game information:', error));
 
 function setupPeriods(sport) {
-    const periods = {
-        Soccer: ["1st Half", "2nd Half", "Extra Time 1st Half", "Extra Time 2nd Half", "Penalty Shootout"],
-        Basketball: ["1st Quarter", "2nd Quarter", "3rd Quarter", "4th Quarter", "Overtime"],
-        AmericanFootball: ["1st Quarter", "2nd Quarter", "3rd Quarter", "4th Quarter", "Overtime"],
-        IceHockey: ["1st Period", "2nd Period", "3rd Period", "Overtime", "Shootout"],
-        Baseball: ["1st Inning", "2nd Inning", "3rd Inning", "4th Inning", "5th Inning", "6th Inning", "7th Inning", "8th Inning", "9th Inning", "Extra Innings"],
-        Tennis: ["1st Set", "2nd Set", "3rd Set", "4th Set", "5th Set", "Tie-Break"],
-        RugbyUnion: ["1st Half", "2nd Half", "Extra Time 1st Half", "Extra Time 2nd Half"],
-        CricketODI: ["1st Inning", "2nd Inning"],
-        CricketT20: ["1st Inning", "2nd Inning"],
-        Handball: ["1st Half", "2nd Half", "Overtime 1st Half", "Overtime 2nd Half"],
-        RugbyLeague: ["1st Half", "2nd Half", "Golden Point Overtime"]
-    };
+    fetch('/api/sports')
+        .then(response => response.json())
+        .then(data => {
+            const sportInfo = data.find(s => s.SportName === sport);
+            if (sportInfo) {
+                window.periods = generatePeriods(sportInfo);
+                document.getElementById('gamePeriod').value = window.periods[0]; // Set initial period
+            } else {
+                window.periods = [];
+            }
+        })
+        .catch(error => console.error('Error fetching sports information:', error));
+}
 
-    window.periods = periods[sport] || [];
+function generatePeriods(sportInfo) {
+    const periods = [];
+    for (let i = 1; i <= sportInfo.RegPeriod; i++) {
+        periods.push(`${i} ${sportInfo.RegPeriodName}`);
+    }
+    for (let i = 1; i <= sportInfo.ExPeriod; i++) {
+        periods.push(`${i} ${sportInfo.ExPeriodName}`);
+    }
+    if (sportInfo.Penalty) {
+        periods.push(sportInfo.PenaltyName);
+    }
+    return periods;
 }
 
 function nextPeriod() {
@@ -104,5 +115,14 @@ function copyOverlayUrl() {
     overlayUrlInput.select();
     overlayUrlInput.setSelectionRange(0, 99999); // For mobile devices
     document.execCommand('copy');
-    alert('Overlay URL copied to clipboard');
+    showToast('Overlay URL copied to clipboard');
+}
+
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.className = 'toast show';
+    setTimeout(() => {
+        toast.className = toast.className.replace('show', '');
+    }, 3000);
 }

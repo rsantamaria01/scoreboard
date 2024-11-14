@@ -44,6 +44,15 @@ module.exports = (app) => {
         });
     });
 
+    app.get('/api/sports', (req, res) => {
+        db.getAllSports((err, sports) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to fetch sports' });
+            }
+            res.json(sports);
+        });
+    });
+
     app.put('/api/games/:id', (req, res) => {
         const gameId = req.params.id;
         const { scoreA, scoreB } = req.body;

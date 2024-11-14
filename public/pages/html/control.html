@@ -32,7 +32,7 @@
         <div class="period-section">
             <h2>Game Period</h2>
             <label for="gamePeriod">Current Period:</label>
-            <input type="text" id="gamePeriod" value="1st Quarter">
+            <input type="text" id="gamePeriod" readonly>
             <button onclick="nextPeriod()">Next Period</button>
         </div>
 
@@ -51,6 +51,8 @@
 
         <button onclick="goToLandingPage()">Back to Landing Page</button>
     </div>
+
+    <div id="toast" class="toast">Overlay URL copied to clipboard</div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="../js/control.js"></script>
