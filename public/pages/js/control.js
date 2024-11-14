@@ -7,9 +7,14 @@ const overlayUrl = `${window.location.origin}/pages/html/overlay.html?gameId=${g
 
 document.getElementById('overlayUrl').value = overlayUrl;
 
-// Set team names based on query parameters (or default names if not provided)
-document.getElementById('team1-name').textContent = urlParams.get('team1') || "Team 1";
-document.getElementById('team2-name').textContent = urlParams.get('team2') || "Team 2";
+// Fetch team names from the server using the gameId
+fetch(`/api/games/${gameId}`)
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('team1-name').textContent = data.teamA || "Team 1";
+        document.getElementById('team2-name').textContent = data.teamB || "Team 2";
+    })
+    .catch(error => console.error('Error fetching team names:', error));
 
 function incrementScore(scoreId) {
     const scoreInput = document.getElementById(scoreId);
@@ -46,7 +51,6 @@ function updateScore() {
     const scoreB = document.getElementById('scoreB').value;
     const time = document.getElementById('gameTime').value;
     const period = document.getElementById('gamePeriod').value;
-
     socket.emit('updateScore', { gameId, scoreA, scoreB, time, period });
 }
 

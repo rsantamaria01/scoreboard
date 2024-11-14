@@ -19,6 +19,8 @@ db.serialize(() => {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             teamA TEXT,
             teamB TEXT,
+            team1Logo TEXT,
+            team2Logo TEXT,
             scoreA INTEGER DEFAULT 0,
             scoreB INTEGER DEFAULT 0,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -27,10 +29,10 @@ db.serialize(() => {
 });
 
 // Functions to interact with the database
-function createGame(teamA, teamB, callback) {
+function createGame(teamA, teamB, team1Logo, team2Logo, callback) {
     db.run(
-        'INSERT INTO games (teamA, teamB) VALUES (?, ?)',
-        [teamA, teamB],
+        'INSERT INTO games (teamA, teamB, team1Logo, team2Logo) VALUES (?, ?, ?, ?)',
+        [teamA, teamB, team1Logo, team2Logo],
         function (err) {
             if (err) {
                 console.error(err.message);
@@ -57,9 +59,25 @@ function updateScore(gameId, scoreA, scoreB, callback) {
     );
 }
 
+function getGameById(gameId, callback) {
+    db.get(
+        'SELECT teamA, teamB, team1Logo, team2Logo FROM games WHERE id = ?',
+        [gameId],
+        (err, row) => {
+            if (err) {
+                console.error(err.message);
+                callback(err);
+            } else {
+                callback(null, row);
+            }
+        }
+    );
+}
+
 // Export the database connection and functions for use in other parts of the app
 module.exports = {
     db,
     createGame,
     updateScore,
+    getGameById,
 };

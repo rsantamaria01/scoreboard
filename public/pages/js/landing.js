@@ -6,22 +6,16 @@ function submitForm() {
 
     // Add default logos if not provided
     if (!formData.get('logo1').name) {
-        formData.append('logo1', 'https://static.vecteezy.com/system/resources/previews/023/579/944/original/illustration-of-soccer-logo-it-s-for-success-concept-png.png');
+        formData.set('logo1', 'https://static.vecteezy.com/system/resources/previews/023/579/944/original/illustration-of-soccer-logo-it-s-for-success-concept-png.png');
     }
     if (!formData.get('logo2').name) {
-        formData.append('logo2', 'https://static.vecteezy.com/system/resources/previews/023/579/944/original/illustration-of-soccer-logo-it-s-for-success-concept-png.png');
+        formData.set('logo2', 'https://static.vecteezy.com/system/resources/previews/023/579/944/original/illustration-of-soccer-logo-it-s-for-success-concept-png.png');
     }
 
     // Send data to the server
     fetch('/api/games', {
         method: 'POST',
-        body: JSON.stringify({
-            teamA: formData.get('team1'),
-            teamB: formData.get('team2')
-        }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
+        body: formData
     })
         .then(response => response.json())
         .then(data => {

@@ -11,23 +11,32 @@
 
 <body>
     <div class="scoreboard">
-        <div class="team" id="team1">
-            <img id="team1Logo" src="" alt="Team 1 Logo">
-            <div id="team1Name">Team 1</div>
-            <div id="team1Score">0</div>
+        <div class="row">
+            <div class="team" id="team1">
+                <img id="team1Logo" src="" alt="Team 1 Logo">
+            </div>
+            <div class="spacer"></div>
+            <div class="team" id="team1Name">Team 1</div>
+            <div class="spacer"></div>
+            <div class="score" id="team1Score">0</div>
+            <div class="spacer"></div>
+            <div class="score" id="team2Score">0</div>
+            <div class="spacer"></div>
+            <div class="team" id="team2Name">Team 2</div>
+            <div class="spacer"></div>
+            <div class="team" id="team2">
+                <img id="team2Logo" src="" alt="Team 2 Logo">
+            </div>
         </div>
-
-        <div class="timer" id="gameTimer">00:00</div>
-
-        <div class="team" id="team2">
-            <img id="team2Logo" src="" alt="Team 2 Logo">
-            <div id="team2Name">Team 2</div>
-            <div id="team2Score">0</div>
+        <div class="row">
+            <div class="timer" id="gameTimer">00:00</div>
+            <div class="spacer"></div>
+            <div class="period" id="gamePeriod">1st Quarter</div>
         </div>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script src="../../overlay.js"></script>
+    <script src="../js/overlay.js"></script>
 </body>
 
 </html>
