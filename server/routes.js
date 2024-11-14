@@ -13,11 +13,11 @@ module.exports = (app) => {
     const db = require('../db/database');
 
     app.post('/api/games', upload.fields([{ name: 'logo1' }, { name: 'logo2' }]), (req, res) => {
-        const { team1, team2 } = req.body;
+        const { team1, team2, sport } = req.body;
         const team1Logo = req.files['logo1'] ? `/uploads/${req.files['logo1'][0].filename}` : req.body.logo1;
         const team2Logo = req.files['logo2'] ? `/uploads/${req.files['logo2'][0].filename}` : req.body.logo2;
 
-        db.createGame(team1, team2, team1Logo, team2Logo, (err, gameId) => {
+        db.createGame(team1, team2, team1Logo, team2Logo, sport, (err, gameId) => {
             if (err) {
                 return res.status(500).json({ error: 'Failed to create game' });
             }

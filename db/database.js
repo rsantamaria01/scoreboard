@@ -12,7 +12,7 @@ const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CR
     }
 });
 
-// Create a "games" table if it doesn’t exist
+// Create tables if they don’t exist
 db.serialize(() => {
     db.run(`
         CREATE TABLE IF NOT EXISTS games (
@@ -21,18 +21,27 @@ db.serialize(() => {
             teamB TEXT,
             team1Logo TEXT,
             team2Logo TEXT,
+            sport TEXT,
             scoreA INTEGER DEFAULT 0,
             scoreB INTEGER DEFAULT 0,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     `);
+
+    db.run(`
+        CREATE TABLE IF NOT EXISTS sports (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            periods TEXT
+        )
+    `);
 });
 
 // Functions to interact with the database
-function createGame(teamA, teamB, team1Logo, team2Logo, callback) {
+function createGame(teamA, teamB, team1Logo, team2Logo, sport, callback) {
     db.run(
-        'INSERT INTO games (teamA, teamB, team1Logo, team2Logo) VALUES (?, ?, ?, ?)',
-        [teamA, teamB, team1Logo, team2Logo],
+        'INSERT INTO games (teamA, teamB, team1Logo, team2Logo, sport) VALUES (?, ?, ?, ?, ?)',
+        [teamA, teamB, team1Logo, team2Logo, sport],
         function (err) {
             if (err) {
                 console.error(err.message);
@@ -61,7 +70,7 @@ function updateScore(gameId, scoreA, scoreB, callback) {
 
 function getGameById(gameId, callback) {
     db.get(
-        'SELECT teamA, teamB, team1Logo, team2Logo FROM games WHERE id = ?',
+        'SELECT teamA, teamB, team1Logo, team2Logo, sport FROM games WHERE id = ?',
         [gameId],
         (err, row) => {
             if (err) {
