@@ -74,10 +74,25 @@ function getGameById(gameId, callback) {
     );
 }
 
+function getAllGames(callback) {
+    db.all(
+        'SELECT id, teamA, teamB FROM games',
+        (err, rows) => {
+            if (err) {
+                console.error(err.message);
+                callback(err);
+            } else {
+                callback(null, rows);
+            }
+        }
+    );
+}
+
 // Export the database connection and functions for use in other parts of the app
 module.exports = {
     db,
     createGame,
     updateScore,
     getGameById,
+    getAllGames,
 };

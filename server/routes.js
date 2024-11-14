@@ -25,6 +25,15 @@ module.exports = (app) => {
         });
     });
 
+    app.get('/api/games', (req, res) => {
+        db.getAllGames((err, games) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to fetch games' });
+            }
+            res.json(games);
+        });
+    });
+
     app.get('/api/games/:id', (req, res) => {
         const gameId = req.params.id;
         db.getGameById(gameId, (err, game) => {

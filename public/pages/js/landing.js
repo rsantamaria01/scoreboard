@@ -30,7 +30,29 @@ function submitForm() {
         .catch(error => console.error('Error:', error));
 }
 
+// Fetch past games and display them
+function loadPastGames() {
+    fetch('/api/games')
+        .then(response => response.json())
+        .then(data => {
+            const pastGamesContainer = document.getElementById('pastGames');
+            data.forEach(game => {
+                const gameDiv = document.createElement('div');
+                gameDiv.textContent = `Game: ${game.teamA} - ${game.teamB}`;
+                gameDiv.onclick = () => {
+                    const redirectUrl = `/pages/html/control.html?gameId=${game.id}`;
+                    window.location.href = redirectUrl;
+                };
+                pastGamesContainer.appendChild(gameDiv);
+            });
+        })
+        .catch(error => console.error('Error fetching past games:', error));
+}
+
 // Prevent form from reloading the page when Enter is pressed
 document.getElementById('setupForm').addEventListener('submit', (event) => {
     event.preventDefault();
 });
+
+// Load past games when the page loads
+window.onload = loadPastGames;
