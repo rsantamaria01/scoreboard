@@ -1,0 +1,57 @@
+<!-- public/pages/html/control.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Control Panel</title>
+    <link rel="stylesheet" href="../css/control.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Game Control Panel</h1>
+
+        <div class="team-section">
+            <h2 id="team1-name">Team 1</h2>
+            <label for="scoreA">Score:</label>
+            <input type="number" id="scoreA" value="0" min="0">
+            <button onclick="incrementScore('scoreA')">+1</button>
+            <button onclick="decrementScore('scoreA')">-1</button>
+        </div>
+
+        <div class="team-section">
+            <h2 id="team2-name">Team 2</h2>
+            <label for="scoreB">Score:</label>
+            <input type="number" id="scoreB" value="0" min="0">
+            <button onclick="incrementScore('scoreB')">+1</button>
+            <button onclick="decrementScore('scoreB')">-1</button>
+        </div>
+
+        <div class="period-section">
+            <h2>Game Period</h2>
+            <label for="gamePeriod">Current Period:</label>
+            <input type="text" id="gamePeriod" value="1st Quarter">
+            <button onclick="nextPeriod()">Next Period</button>
+        </div>
+
+        <div class="time-section">
+            <h2>Game Timer</h2>
+            <input type="text" id="gameTime" value="00:00">
+            <button onclick="startTimer()">Start</button>
+            <button onclick="stopTimer()">Stop</button>
+            <button onclick="resetTimer()">Reset</button>
+        </div>
+
+        <div class="overlay-url-section">
+            <label for="overlayUrl">Overlay URL:</label>
+            <input type="text" id="overlayUrl" readonly>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="../js/control.js"></script>
+</body>
+
+</html>
