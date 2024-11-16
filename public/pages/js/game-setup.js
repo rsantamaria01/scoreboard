@@ -1,4 +1,5 @@
-// public/pages/js/landing.js
+// public/pages/js/game-setup.js
+import axios from 'axios';
 
 function submitForm() {
     const form = document.getElementById('setupForm');
@@ -13,12 +14,9 @@ function submitForm() {
     }
 
     // Send data to the server
-    fetch('/api/games', {
-        method: 'POST',
-        body: formData
-    })
-        .then(response => response.json())
-        .then(data => {
+    axios.post('/api/games', formData)
+        .then(response => {
+            const data = response.data;
             if (data.gameId) {
                 // Redirect to control page with the game ID
                 const redirectUrl = `/pages/html/control.html?gameId=${data.gameId}`;
@@ -32,9 +30,9 @@ function submitForm() {
 
 // Fetch past games and display them
 function loadPastGames() {
-    fetch('/api/games')
-        .then(response => response.json())
-        .then(data => {
+    axios.get('/api/games')
+        .then(response => {
+            const data = response.data;
             const pastGamesContainer = document.getElementById('pastGames');
             data.forEach(game => {
                 const gameDiv = document.createElement('div');
@@ -49,10 +47,29 @@ function loadPastGames() {
         .catch(error => console.error('Error fetching past games:', error));
 }
 
+// Fetch sports and populate the dropdown menu
+function loadSports() {
+    axios.get('/api/sports')
+        .then(response => {
+            const data = response.data;
+            const sportSelect = document.getElementById('sport');
+            data.forEach(sport => {
+                const option = document.createElement('option');
+                option.value = sport.SportName;
+                option.textContent = sport.SportName;
+                sportSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching sports:', error));
+}
+
 // Prevent form from reloading the page when Enter is pressed
 document.getElementById('setupForm').addEventListener('submit', (event) => {
     event.preventDefault();
 });
 
-// Load past games when the page loads
-window.onload = loadPastGames;
+// Load past games and sports when the page loads
+window.onload = () => {
+    loadPastGames();
+    loadSports();
+};

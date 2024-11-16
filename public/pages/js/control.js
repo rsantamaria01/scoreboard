@@ -1,4 +1,5 @@
 // public/js/control.js
+import axios from 'axios';
 
 const socket = io();
 const urlParams = new URLSearchParams(window.location.search);
@@ -8,9 +9,9 @@ const overlayUrl = `${window.location.origin}/pages/html/overlay.html?gameId=${g
 document.getElementById('overlayUrl').value = overlayUrl;
 
 // Fetch team names and sport from the server using the gameId
-fetch(`/api/games/${gameId}`)
-    .then(response => response.json())
-    .then(data => {
+axios.get(`/api/games/${gameId}`)
+    .then(response => {
+        const data = response.data;
         document.getElementById('team1-name').textContent = data.teamA || "Team 1";
         document.getElementById('team2-name').textContent = data.teamB || "Team 2";
         const sport = data.sport;
@@ -19,9 +20,9 @@ fetch(`/api/games/${gameId}`)
     .catch(error => console.error('Error fetching game information:', error));
 
 function setupPeriods(sport) {
-    fetch('/api/sports')
-        .then(response => response.json())
-        .then(data => {
+    axios.get('/api/sports')
+        .then(response => {
+            const data = response.data;
             const sportInfo = data.find(s => s.SportName === sport);
             if (sportInfo) {
                 window.periods = generatePeriods(sportInfo);
@@ -106,8 +107,8 @@ function resetTimer() {
     updateScore();
 }
 
-function goToLandingPage() {
-    window.location.href = '/pages/html/landing.html';
+function goToGameSetupPage() {
+    window.location.href = '/pages/html/game-setup.html';
 }
 
 function copyOverlayUrl() {

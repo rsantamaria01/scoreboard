@@ -1,13 +1,14 @@
 // public/overlay.js
+import axios from 'axios';
 
 const socket = io();
 const urlParams = new URLSearchParams(window.location.search);
 const gameId = urlParams.get('gameId');
 
 // Fetch team names and logos from the server using the gameId
-fetch(`/api/games/${gameId}`)
-    .then(response => response.json())
-    .then(data => {
+axios.get(`/api/games/${gameId}`)
+    .then(response => {
+        const data = response.data;
         document.getElementById('team1Name').textContent = data.teamA || "Team 1";
         document.getElementById('team2Name').textContent = data.teamB || "Team 2";
         document.getElementById('team1Logo').src = data.team1Logo || 'https://static.vecteezy.com/system/resources/previews/023/579/944/original/illustration-of-soccer-logo-it-s-for-success-concept-png.png';

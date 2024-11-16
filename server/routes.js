@@ -4,9 +4,9 @@ const multer = require('multer');
 const upload = multer({ dest: 'uploads/' }); // Set the destination for uploaded files
 
 module.exports = (app) => {
-    // Redirect root URL to landing page
+    // Redirect root URL to game setup page
     app.get('/', (req, res) => {
-        res.redirect('/pages/html/landing.html');
+        res.redirect('/pages/html/game-setup.html');
     });
 
     // Other routes (e.g., /api/games, /api/games/:id)
