@@ -4,7 +4,7 @@ const socket = io();
 const urlParams = new URLSearchParams(window.location.search);
 const gameId = urlParams.get('gameId');
 
-// Fetch team names and logos from the server using the gameId
+// Fetch team names, logos, and sport information from the server using the gameId
 fetch(`/api/games/${gameId}`)
     .then(response => response.json())
     .then(data => {
@@ -12,6 +12,8 @@ fetch(`/api/games/${gameId}`)
         document.getElementById('team2Name').textContent = data.teamB || "Team 2";
         document.getElementById('team1Logo').src = data.team1Logo || 'https://static.vecteezy.com/system/resources/previews/023/579/944/original/illustration-of-soccer-logo-it-s-for-success-concept-png.png';
         document.getElementById('team2Logo').src = data.team2Logo || 'https://static.vecteezy.com/system/resources/previews/023/579/944/original/illustration-of-soccer-logo-it-s-for-success-concept-png.png';
+        const sport = data.sport;
+        setupInitialPeriod(sport);
     })
     .catch(error => console.error('Error fetching team information:', error));
 
@@ -23,3 +25,18 @@ socket.on('scoreUpdate', (data) => {
     document.getElementById('gameTimer').textContent = data.time;
     document.getElementById('gamePeriod').textContent = data.period;
 });
+
+function setupInitialPeriod(sport) {
+    fetch('/api/sports')
+        .then(response => response.json())
+        .then(data => {
+            const sportInfo = data.find(s => s.SportName === sport);
+            if (sportInfo) {
+                const initialPeriod = `${1} ${sportInfo.RegPeriodName}`;
+                document.getElementById('gamePeriod').textContent = initialPeriod;
+            } else {
+                document.getElementById('gamePeriod').textContent = "Unknown Period";
+            }
+        })
+        .catch(error => console.error('Error fetching sports information:', error));
+}
