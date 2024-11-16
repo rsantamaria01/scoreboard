@@ -7,6 +7,9 @@ const overlayUrl = `${window.location.origin}/pages/html/overlay.html?gameId=${g
 
 document.getElementById('overlayUrl').value = overlayUrl;
 
+let currentPeriodIndex = 0;
+let isBreak = false;
+
 // Fetch team names and sport from the server using the gameId
 fetch(`/api/games/${gameId}`)
     .then(response => response.json())
@@ -50,16 +53,22 @@ function generatePeriods(sportInfo) {
 }
 
 function nextPeriod() {
-    const periodInput = document.getElementById('gamePeriod');
-    const currentPeriod = periodInput.value;
-    const currentIndex = window.periods.indexOf(currentPeriod);
-    const nextIndex = (currentIndex + 1) % window.periods.length;
-    periodInput.value = window.periods[nextIndex];
+    if (isBreak) {
+        isBreak = false;
+        document.getElementById('gameTimer').style.display = 'block';
+        resetTimer();
+    } else {
+        currentPeriodIndex = (currentPeriodIndex + 1) % window.periods.length;
+        document.getElementById('gamePeriod').value = window.periods[currentPeriodIndex];
+        resetTimer();
+    }
     updateScore();
 }
 
 function showBreak() {
+    isBreak = true;
     document.getElementById('gamePeriod').value = window.breakName;
+    document.getElementById('gameTimer').style.display = 'none';
     updateScore();
 }
 

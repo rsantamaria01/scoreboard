@@ -24,6 +24,13 @@ socket.on('scoreUpdate', (data) => {
     document.getElementById('team2Score').textContent = data.scoreB;
     document.getElementById('gameTimer').textContent = data.time;
     document.getElementById('gamePeriod').textContent = data.period;
+
+    // Hide the timer if it's a break
+    if (data.period === window.breakName) {
+        document.getElementById('gameTimer').style.display = 'none';
+    } else {
+        document.getElementById('gameTimer').style.display = 'block';
+    }
 });
 
 function setupInitialPeriod(sport) {
@@ -34,6 +41,7 @@ function setupInitialPeriod(sport) {
             if (sportInfo) {
                 const initialPeriod = `${1} ${sportInfo.RegPeriodName}`;
                 document.getElementById('gamePeriod').textContent = initialPeriod;
+                window.breakName = sportInfo.BreakName;
             } else {
                 document.getElementById('gamePeriod').textContent = "Unknown Period";
             }
