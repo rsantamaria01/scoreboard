@@ -9,9 +9,9 @@ const overlayUrl = `${window.location.origin}/pages/html/overlay.html?gameId=${g
 document.getElementById('overlayUrl').value = overlayUrl;
 
 // Fetch team names and sport from the server using the gameId
-axios.get(`/api/games/${gameId}`)
-    .then(response => {
-        const data = response.data;
+fetch(`/api/games/${gameId}`)
+    .then(response => response.json())
+    .then(data => {
         document.getElementById('team1-name').textContent = data.teamA || "Team 1";
         document.getElementById('team2-name').textContent = data.teamB || "Team 2";
         const sport = data.sport;
@@ -20,9 +20,9 @@ axios.get(`/api/games/${gameId}`)
     .catch(error => console.error('Error fetching game information:', error));
 
 function setupPeriods(sport) {
-    axios.get('/api/sports')
-        .then(response => {
-            const data = response.data;
+    fetch('/api/sports')
+        .then(response => response.json())
+        .then(data => {
             const sportInfo = data.find(s => s.SportName === sport);
             if (sportInfo) {
                 window.periods = generatePeriods(sportInfo);

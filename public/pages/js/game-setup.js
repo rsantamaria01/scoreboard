@@ -1,5 +1,4 @@
 // public/pages/js/game-setup.js
-import axios from 'axios';
 
 function submitForm() {
     const form = document.getElementById('setupForm');
@@ -14,9 +13,12 @@ function submitForm() {
     }
 
     // Send data to the server
-    axios.post('/api/games', formData)
-        .then(response => {
-            const data = response.data;
+    fetch('/api/games', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
             if (data.gameId) {
                 // Redirect to control page with the game ID
                 const redirectUrl = `/pages/html/control.html?gameId=${data.gameId}`;
@@ -30,9 +32,9 @@ function submitForm() {
 
 // Fetch past games and display them
 function loadPastGames() {
-    axios.get('/api/games')
-        .then(response => {
-            const data = response.data;
+    fetch('/api/games')
+        .then(response => response.json())
+        .then(data => {
             const pastGamesContainer = document.getElementById('pastGames');
             data.forEach(game => {
                 const gameDiv = document.createElement('div');
@@ -49,9 +51,9 @@ function loadPastGames() {
 
 // Fetch sports and populate the dropdown menu
 function loadSports() {
-    axios.get('/api/sports')
-        .then(response => {
-            const data = response.data;
+    fetch('/api/sports')
+        .then(response => response.json())
+        .then(data => {
             const sportSelect = document.getElementById('sport');
             data.forEach(sport => {
                 const option = document.createElement('option');
