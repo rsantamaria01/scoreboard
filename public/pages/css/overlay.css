@@ -19,19 +19,24 @@ body {
     color: white;
     padding: 20px;
     border-radius: 8px;
-    margin: 20px;
+    margin: 5px;
+    /*width: 100%;*/
+    max-width: 1200px; /* Adjust as needed */
 }
 
 .row {
     display: flex;
     align-items: center;
     margin: 10px 0;
+    width: 100%;
+    justify-content: center;
 }
 
 .team {
     display: flex;
     align-items: center;
     margin: 0 10px;
+    flex: 1;
 }
 
 .team img {
@@ -42,13 +47,15 @@ body {
 
 .team div {
     font-size: 1.5em;
-    /* Name font size */
     font-weight: bold;
+    white-space: nowrap; /* Ensure the name is on a single line */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0 10px;
 }
 
 .score {
     font-size: 2.5em;
-    /* Score font size */
     font-weight: bold;
     margin: 0 10px;
 }
@@ -57,10 +64,13 @@ body {
     flex-grow: 1;
 }
 
+.space {
+    margin: 10px;
+}
+
 .timer,
 .period {
     font-size: 1.2em;
-    /* Time and period font size */
     font-weight: bold;
     margin: 0 10px;
 }
