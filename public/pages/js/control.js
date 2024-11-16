@@ -1,4 +1,4 @@
-// public/js/control.js
+// public/pages/js/control.js
 
 const socket = io();
 const urlParams = new URLSearchParams(window.location.search);
@@ -25,9 +25,11 @@ function setupPeriods(sport) {
             const sportInfo = data.find(s => s.SportName === sport);
             if (sportInfo) {
                 window.periods = generatePeriods(sportInfo);
+                window.breakName = sportInfo.BreakName;
                 document.getElementById('gamePeriod').value = window.periods[0]; // Set initial period
             } else {
                 window.periods = [];
+                window.breakName = "Break";
             }
         })
         .catch(error => console.error('Error fetching sports information:', error));
@@ -80,15 +82,28 @@ function updateScore() {
 
 let timer;
 let timeInSeconds = 0;
+let periodLengthInSeconds = 0;
 
 function startTimer() {
     if (timer) return; // Prevent multiple intervals
+
+    const periodLength = parseInt(document.getElementById('periodLength').value, 10);
+    periodLengthInSeconds = periodLength * 60;
 
     timer = setInterval(() => {
         timeInSeconds++;
         const minutes = String(Math.floor(timeInSeconds / 60)).padStart(2, '0');
         const seconds = String(timeInSeconds % 60).padStart(2, '0');
-        document.getElementById('gameTime').value = `${minutes}:${seconds}`;
+        let displayTime = `${minutes}:${seconds}`;
+
+        if (timeInSeconds > periodLengthInSeconds) {
+            const overtimeSeconds = timeInSeconds - periodLengthInSeconds;
+            const overtimeMinutes = String(Math.floor(overtimeSeconds / 60)).padStart(2, '0');
+            const overtimeDisplaySeconds = String(overtimeSeconds % 60).padStart(2, '0');
+            displayTime = `${minutes}:${seconds} + ${overtimeMinutes}:${overtimeDisplaySeconds}`;
+        }
+
+        document.getElementById('gameTime').value = displayTime;
         updateScore();
     }, 1000);
 }

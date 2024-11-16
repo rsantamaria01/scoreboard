@@ -38,6 +38,9 @@
 
         <div class="time-section">
             <h2>Game Timer</h2>
+            <label for="periodLength">Period Length (minutes):</label>
+            <input type="number" id="periodLength" value="15" min="1">
+            <label for="gameTime">Current Time:</label>
             <input type="text" id="gameTime" value="00:00">
             <button onclick="startTimer()">Start</button>
             <button onclick="stopTimer()">Stop</button>

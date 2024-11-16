@@ -61,11 +61,9 @@ db.serialize(() => {
                 { SportName: 'Rugby League', RegPeriod: 2, RegPeriodName: 'Half', ExPeriod: 1, ExPeriodName: 'Golden Point', Penalty: 0, PenaltyName: '-', BreakName: 'Halftime' }
             ];
 
-
-
-            const insertStmt = db.prepare('INSERT INTO sportinformation (SportName, RegPeriod, RegPeriodName, ExPeriod, ExPeriodName, Penalty, PenaltyName) VALUES (?, ?, ?, ?, ?, ?, ?)');
+            const insertStmt = db.prepare('INSERT INTO sportinformation (SportName, RegPeriod, RegPeriodName, ExPeriod, ExPeriodName, Penalty, PenaltyName, BreakName) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
             sportsData.forEach(sport => {
-                insertStmt.run(sport.SportName, sport.RegPeriod, sport.RegPeriodName, sport.ExPeriod, sport.ExPeriodName, sport.Penalty, sport.PenaltyName);
+                insertStmt.run(sport.SportName, sport.RegPeriod, sport.RegPeriodName, sport.ExPeriod, sport.ExPeriodName, sport.Penalty, sport.PenaltyName, sport.BreakName);
             });
             insertStmt.finalize();
         }
@@ -134,7 +132,7 @@ function getAllGames(callback) {
 
 function getAllSports(callback) {
     db.all(
-        'SELECT SportName, RegPeriod, RegPeriodName, ExPeriod, ExPeriodName, Penalty, PenaltyName FROM sportinformation',
+        'SELECT SportName, RegPeriod, RegPeriodName, ExPeriod, ExPeriodName, Penalty, PenaltyName, BreakName FROM sportinformation',
         (err, rows) => {
             if (err) {
                 console.error(err.message);
