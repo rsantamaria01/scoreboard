@@ -37,7 +37,8 @@ db.serialize(() => {
             ExPeriod INTEGER,
             ExPeriodName TEXT,
             Penalty INTEGER,
-            PenaltyName TEXT
+            PenaltyName TEXT,
+            BreakName TEXT
         )
     `);
 
@@ -47,18 +48,19 @@ db.serialize(() => {
             console.error('Error checking sports table', err);
         } else if (row.count === 0) {
             const sportsData = [
-                { SportName: 'Soccer/Football', RegPeriod: 2, RegPeriodName: 'Half', ExPeriod: 2, ExPeriodName: 'Extra Period', Penalty: 1, PenaltyName: 'Penalty Shootout' },
-                { SportName: 'Basketball', RegPeriod: 4, RegPeriodName: 'Quarter', ExPeriod: 1, ExPeriodName: 'Overtime', Penalty: 0, PenaltyName: '-' },
-                { SportName: 'American Football', RegPeriod: 4, RegPeriodName: 'Quarter', ExPeriod: 1, ExPeriodName: 'Overtime', Penalty: 0, PenaltyName: '-' },
-                { SportName: 'Ice Hockey', RegPeriod: 3, RegPeriodName: 'Period', ExPeriod: 1, ExPeriodName: 'Overtime', Penalty: 1, PenaltyName: 'Shootout' },
-                { SportName: 'Baseball', RegPeriod: 9, RegPeriodName: 'Inning', ExPeriod: 0, ExPeriodName: '-', Penalty: 0, PenaltyName: '-' },
-                { SportName: 'Tennis', RegPeriod: 3, RegPeriodName: 'Set', ExPeriod: 0, ExPeriodName: '-', Penalty: 1, PenaltyName: 'Tie-Break' },
-                { SportName: 'Rugby Union', RegPeriod: 2, RegPeriodName: 'Half', ExPeriod: 2, ExPeriodName: 'Extra Period', Penalty: 0, PenaltyName: '-' },
-                { SportName: 'Cricket (One-Day International)', RegPeriod: 2, RegPeriodName: 'Inning', ExPeriod: 0, ExPeriodName: '-', Penalty: 0, PenaltyName: '-' },
-                { SportName: 'Cricket (T20)', RegPeriod: 2, RegPeriodName: 'Inning', ExPeriod: 0, ExPeriodName: '-', Penalty: 0, PenaltyName: '-' },
-                { SportName: 'Handball', RegPeriod: 2, RegPeriodName: 'Half', ExPeriod: 2, ExPeriodName: 'Extra Period', Penalty: 0, PenaltyName: '-' },
-                { SportName: 'Rugby League', RegPeriod: 2, RegPeriodName: 'Half', ExPeriod: 1, ExPeriodName: 'Golden Point', Penalty: 0, PenaltyName: '-' }
+                { SportName: 'Soccer/Football', RegPeriod: 2, RegPeriodName: 'Half', ExPeriod: 2, ExPeriodName: 'Extra Period', Penalty: 1, PenaltyName: 'Penalty Shootout', BreakName: 'Halftime' },
+                { SportName: 'Basketball', RegPeriod: 4, RegPeriodName: 'Quarter', ExPeriod: 1, ExPeriodName: 'Overtime', Penalty: 0, PenaltyName: '-', BreakName: 'Break' },
+                { SportName: 'American Football', RegPeriod: 4, RegPeriodName: 'Quarter', ExPeriod: 1, ExPeriodName: 'Overtime', Penalty: 0, PenaltyName: '-', BreakName: 'Halftime' },
+                { SportName: 'Ice Hockey', RegPeriod: 3, RegPeriodName: 'Period', ExPeriod: 1, ExPeriodName: 'Overtime', Penalty: 1, PenaltyName: 'Shootout', BreakName: 'Intermission' },
+                { SportName: 'Baseball', RegPeriod: 9, RegPeriodName: 'Inning', ExPeriod: 0, ExPeriodName: '-', Penalty: 0, PenaltyName: '-', BreakName: '-' },
+                { SportName: 'Tennis', RegPeriod: 3, RegPeriodName: 'Set', ExPeriod: 0, ExPeriodName: '-', Penalty: 1, PenaltyName: 'Tie-Break', BreakName: 'Changeover' },
+                { SportName: 'Rugby Union', RegPeriod: 2, RegPeriodName: 'Half', ExPeriod: 2, ExPeriodName: 'Extra Period', Penalty: 0, PenaltyName: '-', BreakName: 'Halftime' },
+                { SportName: 'Cricket (One-Day International)', RegPeriod: 2, RegPeriodName: 'Inning', ExPeriod: 0, ExPeriodName: '-', Penalty: 0, PenaltyName: '-', BreakName: 'Interval' },
+                { SportName: 'Cricket (T20)', RegPeriod: 2, RegPeriodName: 'Inning', ExPeriod: 0, ExPeriodName: '-', Penalty: 0, PenaltyName: '-', BreakName: 'Interval' },
+                { SportName: 'Handball', RegPeriod: 2, RegPeriodName: 'Half', ExPeriod: 2, ExPeriodName: 'Extra Period', Penalty: 0, PenaltyName: '-', BreakName: 'Halftime' },
+                { SportName: 'Rugby League', RegPeriod: 2, RegPeriodName: 'Half', ExPeriod: 1, ExPeriodName: 'Golden Point', Penalty: 0, PenaltyName: '-', BreakName: 'Halftime' }
             ];
+
 
 
             const insertStmt = db.prepare('INSERT INTO sportinformation (SportName, RegPeriod, RegPeriodName, ExPeriod, ExPeriodName, Penalty, PenaltyName) VALUES (?, ?, ?, ?, ?, ?, ?)');
