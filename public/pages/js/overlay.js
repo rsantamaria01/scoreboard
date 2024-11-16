@@ -1,5 +1,4 @@
 // public/overlay.js
-import axios from 'axios';
 
 const socket = io();
 const urlParams = new URLSearchParams(window.location.search);
