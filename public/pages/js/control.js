@@ -58,6 +58,11 @@ function nextPeriod() {
     updateScore();
 }
 
+function showBreak() {
+    document.getElementById('gamePeriod').value = window.breakName;
+    updateScore();
+}
+
 function incrementScore(scoreId) {
     const scoreInput = document.getElementById(scoreId);
     scoreInput.value = parseInt(scoreInput.value) + 1;
@@ -91,7 +96,9 @@ function startTimer() {
     periodLengthInSeconds = periodLength * 60;
 
     timer = setInterval(() => {
-        timeInSeconds++;
+        if (timeInSeconds < periodLengthInSeconds) {
+            timeInSeconds++;
+        }
         const minutes = String(Math.floor(timeInSeconds / 60)).padStart(2, '0');
         const seconds = String(timeInSeconds % 60).padStart(2, '0');
         let displayTime = `${minutes}:${seconds}`;
@@ -100,7 +107,7 @@ function startTimer() {
             const overtimeSeconds = timeInSeconds - periodLengthInSeconds;
             const overtimeMinutes = String(Math.floor(overtimeSeconds / 60)).padStart(2, '0');
             const overtimeDisplaySeconds = String(overtimeSeconds % 60).padStart(2, '0');
-            displayTime = `${minutes}:${seconds} + ${overtimeMinutes}:${overtimeDisplaySeconds}`;
+            displayTime = `${String(Math.floor(periodLengthInSeconds / 60)).padStart(2, '0')}:${String(periodLengthInSeconds % 60).padStart(2, '0')} + ${overtimeMinutes}:${overtimeDisplaySeconds}`;
         }
 
         document.getElementById('gameTime').value = displayTime;
@@ -118,6 +125,20 @@ function resetTimer() {
     stopTimer();
     timeInSeconds = 0;
     document.getElementById('gameTime').value = "00:00";
+    updateScore();
+}
+
+function manualTimeChange() {
+    const timeInput = document.getElementById('gameTime').value;
+    const [mainTime, overtime] = timeInput.split(' + ');
+    const [minutes, seconds] = mainTime.split(':').map(Number);
+    timeInSeconds = (minutes * 60) + seconds;
+
+    if (overtime) {
+        const [overtimeMinutes, overtimeSeconds] = overtime.split(':').map(Number);
+        timeInSeconds += (overtimeMinutes * 60) + overtimeSeconds;
+    }
+
     updateScore();
 }
 
