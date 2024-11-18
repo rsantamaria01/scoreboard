@@ -1,4 +1,4 @@
-// public/overlay.js
+// public/pages/js/overlay.js
 
 const socket = io();
 const urlParams = new URLSearchParams(window.location.search);
@@ -26,7 +26,7 @@ socket.on('scoreUpdate', (data) => {
     document.getElementById('gamePeriod').textContent = data.period;
 
     // Hide the timer if it's a break
-    if (data.period === window.breakName) {
+    if (data.isBreak) {
         document.getElementById('gameTimer').style.display = 'none';
     } else {
         document.getElementById('gameTimer').style.display = 'block';

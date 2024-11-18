@@ -65,6 +65,19 @@ function nextPeriod() {
     updateScore();
 }
 
+function previousPeriod() {
+    if (isBreak) {
+        isBreak = false;
+        document.getElementById('gameTimer').style.display = 'block';
+        resetTimer();
+    } else {
+        currentPeriodIndex = (currentPeriodIndex - 1 + window.periods.length) % window.periods.length;
+        document.getElementById('gamePeriod').value = window.periods[currentPeriodIndex];
+        resetTimer();
+    }
+    updateScore();
+}
+
 function showBreak() {
     isBreak = true;
     document.getElementById('gamePeriod').value = window.breakName;
