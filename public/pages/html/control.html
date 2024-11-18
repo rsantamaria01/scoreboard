@@ -44,6 +44,7 @@
             <input type="number" id="periodLength" value="15" min="1">
             <label for="gameTime">Current Time:</label>
             <input type="text" id="gameTime" value="00:00" oninput="manualTimeChange()">
+            <div id="gameTimer" style="display: none;"></div> <!-- Ensure this element exists -->
             <button onclick="startTimer()">Start</button>
             <button onclick="stopTimer()">Stop</button>
             <button onclick="resetTimer()">Reset</button>
