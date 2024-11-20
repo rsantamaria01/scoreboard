@@ -20,7 +20,8 @@ body {
     padding: 1px;
     border-radius: 10px;
     margin: 1px;
-    max-width: 1200px; /* Adjust as needed */
+    max-width: 1200px;
+    /* Adjust as needed */
 }
 
 .row {
@@ -47,7 +48,7 @@ body {
 .team div {
     font-size: 1.5em;
     font-weight: bold;
-    white-space: nowrap; /* Ensure the name is on a single line */
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     margin: 0 10px;
