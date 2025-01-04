@@ -8,7 +8,7 @@ import * as userSchema from '../users/schema';
 @Module({
   providers: [
     {
-      provide: 'DATABASE_CONNECTION',
+      provide: DATABASE_CONNECTION,
       useFactory: (configService: ConfigService) => {
         const pool = new Pool({
           connectionString: configService.getOrThrow('DATABASE_URL', { infer: true }),
