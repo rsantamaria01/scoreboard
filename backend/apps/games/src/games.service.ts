@@ -37,7 +37,7 @@ export class GamesService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} game`;
+    return this.games[id-1];
   }
 
   update(id: number, updateGameDto: UpdateGameDto) {
