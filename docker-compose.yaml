@@ -1,0 +1,8 @@
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: Scoreboard
+    ports:
+      - "5432:5432"
