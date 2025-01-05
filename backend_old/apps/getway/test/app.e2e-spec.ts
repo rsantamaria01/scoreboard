@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { GetwayModule } from './../src/getway.module';
+import { GetwayModule } from '../src/getway.module';
 
 describe('GetwayController (e2e)', () => {
   let app: INestApplication;
