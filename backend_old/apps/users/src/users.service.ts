@@ -11,23 +11,7 @@ export class UsersService {
     private readonly database: NodePgDatabase<typeof schema>,
   ) { }
 
-  private users: UserDto[] = [
-    {
-      id: 1,
-      username: 'prueba1',
-      password: 'password1',
-      email: 'prueba1@prueba.com',
-    },
-    {
-      id: 2,
-      username: 'prueba2',
-      password: 'password2',
-      email: 'prueba2@prueba.com',
-    }
-  ];
-
   findAll() {
-    //return this.database.query.users.findMany();
-    return this.users;
+    return this.database.query.users.findMany();
   }
 }
