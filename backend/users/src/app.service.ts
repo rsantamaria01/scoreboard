@@ -13,7 +13,7 @@ export class AppService {
   ) {}
 
   InitMS() {
-    return 'Users Controller is up and running!';
+    return 'Users Microservice is up and running!';
   }
 
   findAll() {

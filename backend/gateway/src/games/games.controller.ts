@@ -12,16 +12,16 @@ export class GamesController {
 
   @Get('init/ms')
   InitMS() {
-    return this.gamesClient.send('games.init');
+    return this.gamesClient.send('games.init', {});
   }
 
   @Get()
   findAll() {
-    return this.gamesClient.send('games.findAll');
+    return this.gamesClient.send('games.findAll', {});
   }
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    this.gamesClient.send('users.findOne', id);
+    this.gamesClient.send('users.findOne', { id });
   }
 }

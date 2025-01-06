@@ -12,16 +12,16 @@ export class UsersController {
 
   @Get('init/ms')
   InitMS() {
-    return this.usersClient.send('users.init');
+    return this.usersClient.send('users.init', {});
   }
 
   @Get()
   findAll() {
-    return this.usersClient.send('users.findAll');
+    return this.usersClient.send('users.findAll', {});
   }
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.usersClient.send('users.findOne', id);
+    return this.usersClient.send('users.findOne', { id });
   }
 }

@@ -13,7 +13,7 @@ export class AppService {
   ) {}
 
   InitMS() {
-    return 'Games Controller is up and running!';
+    return 'Games Microservice is up and running!';
   }
 
   findAll() {
