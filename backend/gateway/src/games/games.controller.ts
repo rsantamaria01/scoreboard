@@ -1,39 +1,27 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Controller, Get, Inject, Param, ParseIntPipe } from '@nestjs/common';
+import * as ms from 'src/config/services';
 
 @Controller('games')
 export class GamesController {
-  constructor() {}
+  constructor(@Inject(ms.GAMES_SERVICE) private readonly gamesClient) {}
+
+  @Get('init/co')
+  InitCo() {
+    return 'Games Controller is up and running!';
+  }
+
+  @Get('init/ms')
+  InitMS() {
+    return this.gamesClient.send('games.init');
+  }
 
   @Get()
   findAll() {
-    return 'This action returns all games';
+    return this.gamesClient.send('games.findAll');
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return `This action returns a game with id ${id}`;
-  }
-
-  @Post()
-  create() {
-    return 'This action adds a new game';
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return `This action deletes the game with id ${id}`;
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() body: any) {
-    return `This action updates the game with id ${id}`;
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    this.gamesClient.send('users.findOne', id);
   }
 }

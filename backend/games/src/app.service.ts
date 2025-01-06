@@ -1,49 +1,29 @@
-import { Injectable } from '@nestjs/common';
-import { CreateGameDto } from './dto/create-game.dto';
-import { UpdateGameDto } from './dto/update-game.dto';
-import { GameDto } from './dto/game.dto';
+import { Inject, Injectable } from '@nestjs/common';
+import { eq } from 'drizzle-orm';
+import { NodePgDatabase } from 'drizzle-orm/node-postgres';
+
+import { DATABASE_CONNECTION } from './database/database_connection';
+import * as schema from './database/schema/schema';
 
 @Injectable()
 export class AppService {
-  private games: GameDto[] = [
-    {
-      id: 1,
-      TeamA: 'Prueba1A',
-      TeamB: 'Prueba1B',
-      scoreA: 0,
-      scoreB: 0,
-    },
-    {
-      id: 2,
-      TeamA: 'Prueba2A',
-      TeamB: 'Prueba2B',
-      scoreA: 0,
-      scoreB: 0,
-    },
-  ];
+  constructor(
+    @Inject(DATABASE_CONNECTION)
+    private readonly database: NodePgDatabase<typeof schema>,
+  ) {}
 
-  create(createGameDto: CreateGameDto) {
-    const newGame: GameDto = {
-      ...createGameDto,
-      id: this.games.length + 1,
-    };
-
-    this.games.push(newGame);
+  InitMS() {
+    return 'Games Controller is up and running!';
   }
 
   findAll() {
-    return this.games;
+    return this.database.query.games.findMany();
   }
 
   findOne(id: number) {
-    return this.games[id - 1];
-  }
-
-  update(id: number, updateGameDto: UpdateGameDto) {
-    return `This action updates a #${id} game`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} game`;
+    return this.database
+      .select()
+      .from(schema.games)
+      .where(eq(schema.games.id, id));
   }
 }

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
@@ -28,3 +28,6 @@ import * as userSchema from './schema/schema';
   exports: [DATABASE_CONNECTION],
 })
 export class DatabaseModule {}
+
+const logger = new Logger('USERS');
+logger.log('Database Connection Established');
