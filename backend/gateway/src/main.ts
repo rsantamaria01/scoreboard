@@ -7,6 +7,9 @@ async function bootstrap() {
   const logger = new Logger('Gateway');
 
   const app = await NestFactory.create(AppModule);
+
+  app.setGlobalPrefix('api');
+
   await app.listen( envs.PORT );
 
   logger.log(`Gateway is active on port ${envs.PORT}`);
