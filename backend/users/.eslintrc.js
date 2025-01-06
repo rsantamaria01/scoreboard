@@ -39,7 +39,7 @@ module.exports = {
     'unused-imports/no-unused-vars': ['error', { vars: 'all', args: 'after-used', argsIgnorePattern: '^_' }],
 
     // Prettier Integration
-    'prettier/prettier': ['error'],
+    'prettier/prettier': 'error',
 
     // General Code Quality Rules
     'no-console': 'warn',

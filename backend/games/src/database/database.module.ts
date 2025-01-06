@@ -5,7 +5,7 @@ import { Pool } from 'pg';
 import { envs } from 'src/config';
 
 import { DATABASE_CONNECTION } from './database_connection';
-import * as userSchema from './schema/schema';
+import * as gameSchema from './schema/schema';
 
 @Module({
   providers: [
@@ -18,7 +18,7 @@ import * as userSchema from './schema/schema';
         });
         return drizzle(pool, {
           schema: {
-            ...userSchema,
+            ...gameSchema,
           },
         });
       },
